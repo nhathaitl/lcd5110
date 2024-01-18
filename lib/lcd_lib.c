@@ -6,7 +6,7 @@
 #include "lcd_lib.h"
 
 
-extern int open_file()
+int open_file()
 {
 	int fd;
 
@@ -19,7 +19,7 @@ extern int open_file()
 	return fd;
 }
 
-extern void draw_string(char *name, Pixel_t color, FontSize_t font)
+void draw_string(const char*name, Pixel_t color, FontSize_t font)
 {
 	Draw_String_t str;
 	int fd = open_file();
@@ -35,7 +35,7 @@ extern void draw_string(char *name, Pixel_t color, FontSize_t font)
 	close(fd);
 }
 
-extern void lcd_send_buff()
+void lcd_send_buff()
 {
 	int fd = open_file();
 
@@ -47,7 +47,7 @@ extern void lcd_send_buff()
 	close(fd);
 }
 
-extern void lcd_clear_screen()
+void lcd_clear_screen()
 {
 	int fd = open_file();
 
@@ -59,7 +59,7 @@ extern void lcd_clear_screen()
 	close(fd);
 }
 
-extern void lcd_home()
+void lcd_home()
 {
 	int fd = open_file();
 
@@ -71,7 +71,7 @@ extern void lcd_home()
 	close(fd);
 }
 
-extern void lcd_set_contrast(unsigned char contrast)
+void lcd_set_contrast(unsigned char contrast)
 {
 	unsigned char ct = contrast;
 	int fd = open_file();
@@ -84,7 +84,7 @@ extern void lcd_set_contrast(unsigned char contrast)
 	close(fd);
 }
 
-extern void lcd_gotoxy(unsigned char x, unsigned char y)
+void lcd_gotoxy(unsigned char x, unsigned char y)
 {
 	Position_t pos;
 	int fd = open_file();
@@ -100,7 +100,7 @@ extern void lcd_gotoxy(unsigned char x, unsigned char y)
 	close(fd);
 }
 
-extern void lcd_draw_pixel(unsigned char x, unsigned char y, Pixel_t pixel)
+void lcd_draw_pixel(unsigned char x, unsigned char y, Pixel_t pixel)
 {
 	Draw_Pixel_t pixel_pos;
 	int fd = open_file();
@@ -117,7 +117,7 @@ extern void lcd_draw_pixel(unsigned char x, unsigned char y, Pixel_t pixel)
 	close(fd);
 }
 
-extern void lcd_draw_line(unsigned char x0, unsigned char y0,
+void lcd_draw_line(unsigned char x0, unsigned char y0,
 		unsigned char x1, unsigned char y1, Pixel_t pixel)
 {
 	Draw_Shape_t shape;
@@ -137,7 +137,7 @@ extern void lcd_draw_line(unsigned char x0, unsigned char y0,
 	close(fd);
 }
 
-extern void lcd_draw_rect(unsigned char x0, unsigned char y0,
+void lcd_draw_rect(unsigned char x0, unsigned char y0,
 		unsigned char x1, unsigned char y1, Pixel_t pixel)
 {
 	Draw_Shape_t shape;
@@ -157,7 +157,7 @@ extern void lcd_draw_rect(unsigned char x0, unsigned char y0,
 	close(fd);
 }
 
-extern void lcd_draw_fill_rect(unsigned char x0, unsigned char y0,
+void lcd_draw_fill_rect(unsigned char x0, unsigned char y0,
 			unsigned char x1, unsigned char y1, Pixel_t pixel)
 {
 	Draw_Shape_t shape;
@@ -177,7 +177,7 @@ extern void lcd_draw_fill_rect(unsigned char x0, unsigned char y0,
 	close(fd);
 }
 
-extern void lcd_draw_circle(char x, char y, char r, Pixel_t pixel)
+void lcd_draw_circle(char x, char y, char r, Pixel_t pixel)
 {
 	Draw_Circle_t circle;
 	int fd = open_file();
@@ -195,7 +195,7 @@ extern void lcd_draw_circle(char x, char y, char r, Pixel_t pixel)
 	close(fd);
 }
 
-extern void lcd_draw_fill_circle(char x, char y, char r, Pixel_t pixel)
+void lcd_draw_fill_circle(char x, char y, char r, Pixel_t pixel)
 {
 	Draw_Circle_t circle;
 	int fd = open_file();

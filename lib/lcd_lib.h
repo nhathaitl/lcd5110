@@ -10,7 +10,11 @@
 
 #define FILENAME		"/dev/framebuf"
 
-extern void draw_string(char *str, Pixel_t color, FontSize_t font);
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+extern void draw_string(const char *str, Pixel_t color, FontSize_t font);
 extern int open_file();
 extern void lcd_send_buff();
 extern void lcd_clear_screen();
@@ -26,5 +30,9 @@ extern void lcd_draw_fill_rect(unsigned char x0, unsigned char y0,
 		unsigned char x1, unsigned char y1, Pixel_t pixel);
 extern void lcd_draw_circle(char x, char y, char r, Pixel_t pixel);
 extern void lcd_draw_fill_circle(char x, char y, char r, Pixel_t pixel);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

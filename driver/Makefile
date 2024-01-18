@@ -6,8 +6,6 @@ TOOLCHAIN := /home/norman/bbb/kernelbuildscripts/dl/gcc-8.5.0-nolibc/arm-linux-g
 
 all: 
 	make ARCH=arm CROSS_COMPILE=$(TOOLCHAIN) -C $(BBB_KERNEL) M=$(shell pwd) modules
-	#make -C $(KDIR) M=$(DIR)/driver modules
-	#make -C $(KDIR) M=$(PWD) modules
+	
 clean:
-	make -C $(KDIR) M=$(DIR)/driver clean
-	#make -C $(KDIR) M=$(PWD) clean
+	make -C $(BBB_KERNEL) M=$(shell pwd) clean

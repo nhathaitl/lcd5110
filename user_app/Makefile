@@ -1,12 +1,14 @@
-# Gpio Sub-System
-BBB_KERNEL := /home/norman/bbb/kernelbuildscripts/KERNEL
-TOOLCHAIN := /home/norman/bbb/kernelbuildscripts/dl/gcc-8.5.0-nolibc/arm-linux-gnueabi/bin/arm-linux-gnueabi-
 
-EXTRA_CFLAGS=-Wall
-obj-m := gpio.o
+INCLUDE_DIR=../lib
+CFLAGS=-I$(INCLUDE_DIR) -Wall
+LDFLAGS=-L$(INCLUDE_DIR) -l lcd_lib
+
+TARGET=app_snake_hunting
+CC=arm-linux-gnueabi-g++
 
 all:
-	make ARCH=arm CROSS_COMPILE=$(TOOLCHAIN) -C $(BBB_KERNEL) M=$(shell pwd) modules
-	
+	$(CC) main.cpp $(CFLAGS) $(LDFLAGS) -o $(TARGET) -static
+
+
 clean:
-	make -C $(BBB_KERNEL) M=$(shell pwd) clean
+	rm $(TARGET) 

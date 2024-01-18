@@ -13,6 +13,10 @@
 #include <sys/time.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sstream>
+
+#include "../lib/lcd_lib.h"
+
 
 char getch()
 {
@@ -62,8 +66,8 @@ void clearScreen()
     system("clear");
 }
 
-const int MAP_WIDTH = 24;
-const int MAP_HEIGHT = 16;
+const int MAP_WIDTH = 84;
+const int MAP_HEIGHT = 43;
 const int MAP_SIZE = MAP_WIDTH * MAP_HEIGHT; // How many spaces there are in the map
 
 const int TILE_FOOD = -3;
@@ -165,6 +169,7 @@ void moveSnake(int dx, int dy)
 
 void initMap()
 {
+    lcd_clear_screen();
     // Place Snake Head on map
     map[headY + headX * MAP_HEIGHT] = 1;
     
@@ -227,7 +232,7 @@ int calcScore()
 {
     return length - SNAKE_STARTING_LENGTH;
 }
-
+ 
 void update()
 {
     switch (direction)
@@ -261,18 +266,36 @@ using namespace std;
 
 void render()
 {
-    clearScreen();
-    
+    // lcd_clear_screen();
+// =====================
+        lcd_gotoxy(2,0);
+        draw_string("Score: " , Pixel_Set, FontSize_3x5);
+        int charTmp = calcScore();
+        std::stringstream t;
+
+        t << charTmp;
+        char const *n_char = 
+            t.str().c_str();
+        draw_string(n_char, Pixel_Set, FontSize_3x5);
+        lcd_send_buff();
+// ================
     for (int y = 0; y < MAP_HEIGHT; ++y)
     {
         for (int x = 0; x < MAP_WIDTH; ++x)
         {
             int value = map[y + x * MAP_HEIGHT];
             char character = getMapCharForValue(value);
-            cout << character;
+
+            if(character != ' ') {
+                lcd_draw_pixel(x , y + 5, Pixel_Set);
+                // draw_string(&character, Pixel_Set, FontSize_3x5);
+                lcd_send_buff();
+            }
+            else {
+                lcd_draw_pixel(x , y + 5, Pixel_Clear);
+                lcd_send_buff();
+            }
         }
-        
-        cout << endl;
     }
 }
 
@@ -293,10 +316,24 @@ void runGame()
         render();
         
         // Wait for a 1/3 second, meaning the game runs at 3 FPS (frames per second)
-        _sleep(300);
+        // _sleep(30);
     }
-    
-    cout << endl << "Game over!" << endl << "Score: " << calcScore() << endl << endl;
+    lcd_clear_screen();
+    lcd_gotoxy(0,0);
+	draw_string("Game over!" , Pixel_Set, FontSize_3x5);
+    lcd_gotoxy(0,6);
+    draw_string("Score: " , Pixel_Set, FontSize_3x5);
+
+    int charTmp = calcScore();
+    std::stringstream t;
+
+	t << charTmp;
+	char const *n_char = 
+		t.str().c_str();
+	draw_string(n_char, Pixel_Set, FontSize_3x5);
+    lcd_send_buff();
+
+    // cout << endl << "Game over!" << endl << "Score: " << calcScore() << endl << endl;
     
     // Stop console from closing instantly
     cin.ignore();
